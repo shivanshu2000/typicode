@@ -12,9 +12,6 @@ export default createStore({
   mutations: {
     selectUser(state, payload){
       state.selectedUser = {...state.selectedUser, id:payload.id, name: payload.name}
-
-      // state.selectedUser.id = payload.id
-      // state.selectedUser.name = payload.name
       fetch(`https://jsonplaceholder.typicode.com/albums/?userId=${state.selectedUser.id}`).then(res=>res.json()).then(albums=>state.albums =albums)
     },
 
@@ -23,6 +20,12 @@ export default createStore({
     }
   },
   actions: {
+  init({commit}){
+
+    fetch('https://jsonplaceholder.typicode.com/users').then(res => res.json()).then(users=>{
+    commit('loadUsers', users.slice(0,5));
+})
+  }
   },
   modules: {
   },
